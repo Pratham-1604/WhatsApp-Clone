@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         backgroundColor: backgroundColor,
       ),
-      home: null,
+      home: Text('WhatsPrathamesh'),
     );
   }
 }
