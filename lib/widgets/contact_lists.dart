@@ -10,57 +10,56 @@ class ContactLists extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: InkWell(
-                  onTap: () {},
-                  child: ListTile(
-                    title: Text(
-                      info[index]['name'].toString(),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {},
+                child: ListTile(
+                  title: Text(
+                    info[index]['name'].toString(),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 6.0),
+                    child: Text(
+                      info[index]['message'].toString(),
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: Text(
-                        info[index]['message'].toString(),
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        info[index]["profilePic"].toString(),
-                      ),
-                    ),
-                    trailing: Text(
-                      info[index]['time'].toString(),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(
+                      info[index]["profilePic"].toString(),
+                    ),
+                  ),
+                  trailing: Text(
+                    info[index]['time'].toString(),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-              itemCount: info.length,
-            ),
+              const Divider(
+                color: dividerColor,
+                indent: 85,
+              ),
+            ],
           ),
-          const Divider(
-            color: dividerColor,
-            indent: 85,
-          )
-        ],
+        ),
+        itemCount: info.length,
       ),
     );
   }
