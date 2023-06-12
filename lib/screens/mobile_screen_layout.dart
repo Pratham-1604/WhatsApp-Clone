@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/colors.dart';
+import 'package:whatsapp_clone/features/user_contacts/screens/select_contacts_screen.dart';
 import 'package:whatsapp_clone/widgets/contact_lists.dart';
 
 class MobileScreenLayout extends StatelessWidget {
@@ -60,6 +61,12 @@ class MobileScreenLayout extends StatelessWidget {
             ),
           ),
           body: ContactLists(),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, SelectContactsScreen.routeName);
+            },
+            child: Icon(Icons.message),
+          ),
         ),
       ),
     );
