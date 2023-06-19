@@ -26,6 +26,16 @@ class SelectContactsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Contacts'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.more_vert),
+          ),
+        ],
       ),
       body: ref.watch(getContactsProvider).when(
             data: (contactList) => Padding(
