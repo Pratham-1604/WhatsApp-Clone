@@ -69,7 +69,7 @@ class MobileChatScreen extends ConsumerWidget {
           Expanded(
             child: ChatLists(),
           ),
-          BottomChatField(),
+          BottomChatField(receiverUserId: uid ,),
         ],
       ),
     );
