@@ -15,7 +15,7 @@ class SelectContactsScreen extends ConsumerWidget {
     required WidgetRef ref,
     required Contact selectedContact,
   }) {
-    ref.read(SelectContactControllerProvider).selectContact(
+    ref.read(selectContactControllerProvider).selectContact(
           context: context,
           selectedContact: selectedContact,
         );

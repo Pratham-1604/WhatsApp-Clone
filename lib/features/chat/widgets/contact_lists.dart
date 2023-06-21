@@ -37,8 +37,10 @@ class ContactLists extends ConsumerWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) =>
-                                MobileChatScreen(name: 'hey', uid: 'a1y'),
+                            builder: (context) => MobileChatScreen(
+                              name: chatContactData.name,
+                              uid: chatContactData.contactId,
+                            ),
                           ),
                         );
                       },
@@ -85,7 +87,6 @@ class ContactLists extends ConsumerWidget {
                     ),
                   ],
                 );
-                
               },
             );
           }),
