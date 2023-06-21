@@ -43,8 +43,8 @@ class SelectContactsRepositories {
           ' ',
           '',
         );
-        debugPrint(selectedPhoneNum);
-        debugPrint(userData.phoneNumber);
+        // debugPrint(selectedPhoneNum);
+        // debugPrint(userData.phoneNumber);
 
         if (selectedPhoneNum == userData.phoneNumber) {
           isFound = true;

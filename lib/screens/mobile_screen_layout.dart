@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/colors.dart';
 import 'package:whatsapp_clone/features/user_contacts/screens/select_contacts_screen.dart';
-import 'package:whatsapp_clone/widgets/contact_lists.dart';
+import 'package:whatsapp_clone/features/chat/widgets/contact_lists.dart';
 
 class MobileScreenLayout extends StatelessWidget {
   @override

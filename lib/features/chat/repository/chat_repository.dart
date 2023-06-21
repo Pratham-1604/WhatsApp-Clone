@@ -9,10 +9,10 @@ import 'package:whatsapp_clone/models/chat_contact.dart';
 import 'package:whatsapp_clone/models/message.dart';
 import 'package:whatsapp_clone/models/user_model.dart';
 
-final ChatRepositoryProvider = Provider(
+final chatRepositoryProvider = Provider(
   (ref) => ChatRepository(
-    FirebaseFirestore.instance,
-    FirebaseAuth.instance,
+    firestore: FirebaseFirestore.instance,
+    auth: FirebaseAuth.instance,
   ),
 );
 
@@ -20,10 +20,44 @@ class ChatRepository {
   final FirebaseFirestore firestore;
   final FirebaseAuth auth;
 
-  ChatRepository(
-    this.firestore,
-    this.auth,
-  );
+  ChatRepository({
+    required this.firestore,
+    required this.auth,
+  });
+
+  Stream<List<ChatContact>> getChatContacts() {
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .snapshots()
+        .asyncMap((event) async {
+      // debugPrint("\n\nsnapshotss: ${event.docs.length}\n\n\n\n\n");
+      List<ChatContact> contacts = [];
+      for (var document in event.docs) {
+        var chatContact = ChatContact.fromMap(document.data());
+        debugPrint("3 ${chatContact.name}");
+        var userData = await firestore
+            .collection('users')
+            .doc(chatContact.contactId)
+            .get();
+        // debugPrint("4 ${chatContact.contactId}");
+        // debugPrint("\n\nuserData: ${userData.data()!.length}\n\n\n\n\n");
+        var user = UserModel.fromMap(userData.data()!);
+        contacts.add(
+          ChatContact(
+            name: user.name,
+            profilePic: user.profilePic,
+            contactId: chatContact.contactId,
+            timeSent: chatContact.timeSent,
+            lastMessage: chatContact.lastMessage,
+          ),
+        );
+      }
+      // debugPrint("8 contacts length ${contacts.length}");
+      return contacts;
+    });
+  }
 
   void _saveDataToContactSubCollection({
     required UserModel senderUserData,
@@ -36,7 +70,7 @@ class ChatRepository {
     var receiverChatContact = ChatContact(
       name: senderUserData.name,
       profilePic: senderUserData.profilePic,
-      contactId: senderUserData.phoneNumber,
+      contactId: senderUserData.uid,
       timeSent: timeSent,
       lastMessage: lastMessage,
     );
@@ -51,7 +85,7 @@ class ChatRepository {
     var senderChatContact = ChatContact(
       name: receiverUserData.name,
       profilePic: receiverUserData.profilePic,
-      contactId: receiverUserData.phoneNumber,
+      contactId: receiverUserData.uid,
       timeSent: timeSent,
       lastMessage: lastMessage,
     );
@@ -105,34 +139,34 @@ class ChatRepository {
   void sendTextMessage({
     required BuildContext context,
     required String text,
-    required String receiverId,
-    required UserModel senderUserData,
+    required String receiverUserId,
+    required UserModel senderUser,
   }) async {
     try {
       var timeSent = DateTime.now();
 
-      UserModel receiverData;
+      UserModel receiverUserData;
       var userDataMap =
-          await firestore.collection('users').doc(receiverId).get();
-      receiverData = UserModel.fromMap(userDataMap.data()!);
+          await firestore.collection('users').doc(receiverUserId).get();
+      receiverUserData = UserModel.fromMap(userDataMap.data()!);
 
       _saveDataToContactSubCollection(
-        senderUserData: senderUserData,
-        receiverUserData: receiverData,
+        senderUserData: senderUser,
+        receiverUserData: receiverUserData,
         lastMessage: text,
         timeSent: timeSent,
-        receiverUserId: receiverId,
+        receiverUserId: receiverUserId,
       );
 
       var messageId = const Uuid().v1();
 
       _saveMessageToMessageSubcollection(
-        receiverUserId: receiverId,
+        receiverUserId: receiverUserId,
         text: text,
         timeSent: timeSent,
         messageId: messageId,
-        username: senderUserData.name,
-        receiverUsername: receiverData.name,
+        username: senderUser.name,
+        receiverUsername: receiverUserData.name,
         messageType: MessageEnum.text,
       );
     } catch (e) {

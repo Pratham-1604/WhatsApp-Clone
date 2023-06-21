@@ -28,9 +28,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     showCountryPicker(
       context: context,
       showPhoneCode: true,
-      onSelect: (Country country) {
+      onSelect: (Country _country) {
         setState(() {
-          country = country;
+          country = _country;
         });
       },
     );

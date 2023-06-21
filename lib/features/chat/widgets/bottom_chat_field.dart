@@ -63,7 +63,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
               filled: true,
               fillColor: mobileChatBoxColor,
               prefixIcon: SizedBox(
-                width: size.width * 0.75 * 0.3,
+                width: size.width * 0.75 * 0.31,
                 child: Row(
                   children: [
                     IconButton(
@@ -84,7 +84,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                 ),
               ),
               suffixIcon: SizedBox(
-                width: size.width * 0.75 * 0.3,
+                width: size.width * 0.75 * 0.31,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
